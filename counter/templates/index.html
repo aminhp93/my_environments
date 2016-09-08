@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Counter</title>
+	<style type="text/css">
+		div{
+			margin: 200px auto;
+			width: 100px;
+		}
+		button{
+			cursor: pointer;
+		}
+	</style>
+	<script type="text/javascript"></script>
+</head>
+<body>
+	<div>
+		<h3>Counter</h3>
+		{{ session['times'] }} time(s)
+		<form action="/page2">
+			<input type="submit" value="+2" name="submit">
+		</form>
+		<form action="/reset">
+			<input type="submit" value="reset" name="reset">
+		</form>
+	</div>
+</body>
+</html>
