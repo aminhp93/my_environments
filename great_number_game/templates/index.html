@@ -22,13 +22,8 @@
 	<p>I am thinking of a number between 1 and 100</p>
 	<p>Take a guess</p>
 	<div>
-		{% if session['guess'] < session['secret']: %}
-		<div class="other">Too low</div>
-		{% elif session['guess'] > session['secret']: %}
-		<div class="other">Too high</div>
-		{% elif session['guess'] == session['secret']: %}
-		<div id="right">{{ session['guess'] }} was the number</div>
-		{% endif %}
+	{{ session['guess']}}
+
 	</div>
 
 	<form action="/guess" method="post">
