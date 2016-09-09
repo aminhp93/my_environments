@@ -10,7 +10,7 @@
 			width: 100px;
 			background-color: red;
 		}
-		#right{
+		.right{
 			height: 100px;
 			width: 100px;
 			background-color: green;
@@ -22,8 +22,14 @@
 	<p>I am thinking of a number between 1 and 100</p>
 	<p>Take a guess</p>
 	<div>
+<<<<<<< HEAD
 	{{ session['guess']}}
 
+=======
+		<div class="{{session['class']}}">
+			{{session['result']}}
+		</div>
+>>>>>>> bb621b1
 	</div>
 
 	<form action="/guess" method="post">

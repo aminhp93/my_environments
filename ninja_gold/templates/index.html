@@ -1,45 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Ninja gold</title>
+	<title>Ninja Gold</title>
+	<style type="text/css">
+		.green{
+			color: green;
+		}
+		.red{
+			color: red;
+		}
+	</style>
 </head>
 <body>
-	<div id="your-gold">
-		Your gold: <div>{{ session['your_gold'] }}</div>
+	<div>
+		{{ session['result'] }}
 	</div>
-	<div id="farm">
-		<h3>Farm</h3>
-		<p>(earns 10-20 golds)</p>
+	<div>
 		<form action="/process_money" method="post">
-			<input type="submit" name="find_gold">
+			<input type="hidden" name="hidden" value="farm">
+			<input type="submit">
 		</form>
 	</div>
-	<div id="cave">
-		<h3>Cave</h3>
-		<p>(earns 5-10 golds)</p>
+	<div>
 		<form action="/process_money" method="post">
-			<input type="submit" name="find_gold">
+			<input type="hidden" name="hidden" value="cave">
+			<input type="submit">
 		</form>
 	</div>
-	<div id="house">
-		<h3>House</h3>
-		<p>(earns 2-5 golds)</p>
+	<div>
 		<form action="/process_money" method="post">
-			<input type="submit" name="find_gold">
+			<input type="hidden" name="hidden" value="house">
+			<input type="submit">
 		</form>
 	</div>
-	<div id="casino">
-		<h3>Casino</h3>
-		<p>(earns/takes 0-50 golds)</p>
+	<div>
 		<form action="/process_money" method="post">
-			<input type="submit" name="find_gold">
+			<input type="hidden" name="hidden" value="casino">
+			<input type="submit">
 		</form>
 	</div>
-	<div id="activities">
-		<h4>Activities</h4>
-		<div>
-			
-		</div>
+	<div class="red">
+		fkajsdl;
+	</div>
+	<div>
+		Activities:
+		<ul>
+			{% for i in activities: %}
+			<li class="{{ i[0] }}">{{ i[1] }}</li> 
+			{% endfor %}
+		</ul>
 	</div>
 </body>
 </html>
