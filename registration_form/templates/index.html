@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Dojo Survey</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dojo_survey.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='js/dojo_survey.js') }}"></script>
+</head>
+<body>
+	<form id="survey_index" action="/result" method="post">
+		<li>
+			{% with messages = get_flashed_messages() %}
+  				{% if messages %}
+  					{% for message in messages %}
+  						<p>{{ messages }}</p>
+  					{% endfor %}
+  				{% endif %}
+  			{% endwith %}
+		</li>
+		<li>
+			<h3>Your Email:</h3><input type="text" name="email">
+		</li>
+		<li>
+			<h3>First Name:</h3><input type="text" name="first_name">
+		</li>
+		<li>
+			<h3>Last Name:</h3><input type="text" name="last_name">
+		</li>
+		<li>
+			<h3>Password:</h3><input type="password" name="password">
+		</li>
+		<li>
+			<h3>Confirm Password:</h3><input type="password" name="confirm_password">
+		</li>
+		<li>
+			<h3>Dojo Location</h3>
+			<select form="survey_index" name="location">
+				<option value="San Jose">San Jose</option>
+				<option>Los Angeles</option>
+				<option>Chicago</option>
+			</select>
+		</li>
+		<li>
+			<h3>Favorite Language:</h3>
+			<select form="survey_index" name="language">
+				<option>Ruby</option>
+				<option>Python</option>
+				<option>iOS</option>
+			</select>
+		</li>
+		<li>
+			<h3>Comment (optional):</h3><input id="comment" type="text" name="comment">
+		</li>
+		<input id="button" type="submit" value="button">
+	</form>
+</body>
+</html>
