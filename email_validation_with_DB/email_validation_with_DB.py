@@ -19,30 +19,30 @@ def submit():
 		flash('Invalid email')
 		return redirect('/')
 	else:
-		query1 = "INSERT INTO table_email(email, created_at, updated_at) VALUES (:email, NOW(), NOW())"
+		query = "INSERT INTO table_email(email, created_at, updated_at) VALUES (:email, NOW(), NOW())"
 		data = {
-				 'email': request.form['email']
+				 'email': email
 			   }
-		insert_query1 = mysql.query_db(query1, data)
+		insert_query = mysql.query_db(query, data)
 		
 		flash('The email addess you entered' + email + 'is a VALID email address! Thank you!')
 		return redirect('/success')
 
 @app.route('/success')
 def success():
-	query2 = "SELECT * FROM table_email"
-	display_query2 = mysql.query_db(query2)
+	query = "SELECT * FROM table_email"
+	display_query = mysql.query_db(query)
 
-	return render_template('success.html', emails = display_query2)	
+	return render_template('success.html', emails = display_query)	
 
 @app.route('/delete', methods=['POST'])
 def delete():
-	query2 = "SELECT * FROM table_email"
-	display_query2 = mysql.query_db(query2)
-	email = display_query2[-1]['email']
+	query = "SELECT * FROM table_email"
+	display_query = mysql.query_db(query)
+	email = display_query[-1]['email']
+	flash('Deleted ' + email + ' successfully!')
 	query1 = "DELETE FROM table_email ORDER BY id DESC LIMIT 1"
 	mysql.query_db(query1)
-	flash('Deleted ' + email + ' successfully!')
 	return redirect('/success')
 
 app.run(debug=True)

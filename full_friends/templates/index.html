@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Full Friends</title>
+	<style type="text/css">
+		form{
+			display: inline-block;
+		}
+		span{
+			width: 100px;
+
+		}
+	</style>
+</head>
+<body>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul class="flashes">
+			{% for message in messages %}
+				<li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+	<h3>All name of your friends:</h3>
+	<ol>
+	{% for friend in friends: %}
+		<li>
+			<p>Name: {{ friend['name'] }}</p>
+			<form action="/friends/{{friend['id']}}/edit">
+				<input type="submit" value="Edit here">
+			</form>
+			<form action="/friends/{{friend['id']}}/delete">
+				<input type="submit" value="Delete yourself">
+			</form>
+		</li>
+	{% endfor %}
+	</ol>
+	<h3>Give me your name and age:</h3>
+	<form action="/friends" method="post">
+		Name:<input type="text" name="name">
+		Age:<input type="text" name="age">
+		<input type="submit" name="">
+	</form>
+
+</body>
+</html>
