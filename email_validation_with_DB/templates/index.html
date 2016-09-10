@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Email Validation with DB</title>
+	<style type="">
+		li{
+			background-color: red;
+			padding: 10px;
+			width: 300px;
+			list-style-type: none;
+		}
+	</style>
+</head>
+<body>
+	<h2>Email Validation with DB</h2>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul class="flashes">
+			{% for message in messages %}
+				<li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+
+	<form action="/submit" method="post">
+		Email Address:<input type="text" name="email" placeholder="test@who">
+		<input type="submit">
+	</form>
+</body>
+</html>

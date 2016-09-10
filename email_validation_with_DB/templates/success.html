@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Email Validation with DB</title>
+	<style type="text/css">
+		li{
+			list-style-type: none;
+		}
+		.flash{
+			background-color: lightgreen;
+			padding: 10px;
+			width: 300px;
+		}
+	</style>
+</head>
+<body>
+	<h2>Email Validation with DB</h2>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul class="flash">
+			{% for message in messages %}
+				<li>{{ messages }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+	<h3>Email Address Entered:</h3>
+
+	<ul>
+	{% for i in emails %}
+		<li>{{ email }}</li>
+		<li>Email: {{ i['email'] }}</li>
+		<li>Created at: {{ i['created_at'] }}</li>
+		<li>Updated at: {{ i['updated_at'] }}</li>
+	{% endfor %}
+	</ul>
+
+	<form action="/delete" method="post">
+		<input type="submit" value="Click here to delete email">
+	</form>
+
+</body>
+</html>
