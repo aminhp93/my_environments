@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login and registration</title>
+</head>
+<body>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul>
+			{% for i in messages %}
+				<li>{{ i }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+	<h2>Registration</h2>
+	<form action="/submit" method="post">
+		<li>
+			First Name: <input type="text" name="first_name"> 
+	
+		</li>
+		<li>
+			Last Name: <input type="text" name="last_name">	
+			
+		</li>
+		<li>
+			Email: <input type="text" name="email">	
+			
+		</li>
+		<li>
+			Password: <input type="password" name="password">	
+		
+		</li>
+		<li>
+			Confirm Password: <input type="password" name="password_confirmation">	
+		
+		</li>
+		<li><input type="submit" name=""></li>
+	</form>
+
+	<h2>Login</h2>
+	<form action="/login" method="post">
+		<li>Email: <input type="text" name="email"></li>
+		<li>Password: <input type="password" name="password"></li>
+		<li><input type="submit" name=""></li>
+	</form>
+</body>
+</html>

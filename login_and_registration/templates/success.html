@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Logged in</title>
+</head>
+<body>
+	<h2>Logged in successfully</h2>
+	{{ user }}
+	<ul>
+	{% for i in user %}
+		<li>First Name: {{ i['first_name'] }}</li>
+		<li>Last Name: {{ i['last_name'] }}</li>
+		<li>Email: {{ i['email'] }}</li>
+		<li>Created at: {{ i['created_at'] }}</li>
+		<li>Updated at: {{ i['updated_at'] }}</li>
+	{% endfor %}
+	</ul>
+</body>
+</html>
