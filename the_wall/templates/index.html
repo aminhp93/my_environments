@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>The wall</title>
+	<style type="text/css">
+		.title{
+			display: inline-block;
+			width: 100px;
+		}
+		li{
+			list-style: none;
+		}
+		#registration, #login{
+			display: inline-block;
+			vertical-align: top;
+			margin-right: 200px;
+		}
+
+	</style>
+</head>
+<body>
+	<h2>THE WALL</h2>
+
+	<form action="/create" method="post" id="registration">
+		<h3>Registration</h3>
+		<li><div class="title">First name:</div><input type="text" name="first_name"></li>
+		<li><div class="title">Last name:</div><input type="text" name="last_name"></li>
+		<li><div class="title">Email:</div><input type="text" name="email"></li>
+		<li><div class="title">Password:</div><input type="password" name="password"></li>
+		<li><div class="title">Password confirmation:</div><input type="password" name="password_confirmation"></li>
+		<li><input type="submit" name=""></li>
+	</form>
+
+	<form action="/login" method="post" id="login">
+		<h3>Login</h3>
+		<li><div class="title">Email:</div><input type="text" name="email_login"></li>
+		<li><div class="title">Password:</div><input type="text" name="password_login"></li>
+		<li><input type="submit" name=""></li>
+	</form>
+
+</body>
+</html>
