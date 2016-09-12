@@ -3,7 +3,7 @@ import re
 from mysqlconnection import MySQLConnector
 
 app = Flask(__name__)
-app.secret_key = "COafsdfsdfd"
+app.secret_key = "COfsdfsdfd"
 mysql = MySQLConnector(app, 'amin')
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
@@ -65,6 +65,7 @@ def success():
 		data = {'id': session['logged_in_id']}
 	
 	user = mysql.query_db(query, data)
+	user[0]['id'] = int(user[0]['id'])
 
 	return render_template('success.html', user = user)
 

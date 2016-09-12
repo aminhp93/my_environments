@@ -15,6 +15,7 @@
 <body>
 	<h2>Logged in successfully</h2>
 	{{ user }}
+	{{ user[0]['id']}}
 	<ul>
 	{% for i in user %}
 		<li>First Name: {{ i['first_name'] }}</li>

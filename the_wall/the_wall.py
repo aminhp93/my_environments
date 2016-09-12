@@ -4,7 +4,7 @@ import re
 import md5
 
 app = Flask(__name__)
-app.secret_key = "Con dodoff21a1"
+app.secret_key = "Con dodoff2a1"
 mysql = MySQLConnector(app, 'the_wall')
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -31,7 +31,7 @@ def create():
 
     query = 'INSERT INTO users(first_name, last_name, email, password, created_at, updated_at) VALUES (:first_name, :last_name, :email, :password, NOW(), NOW())'
     data = {'first_name': session['first_name'], 'last_name': session['last_name'], 'email': session['email'], 'password': session['password']}
-    session['id'] = int(mysql.query_db(query, data))
+    session['id'] = mysql.query_db(query, data)
     return redirect('/users')
 
 @app.route('/login', methods=['POST'])
@@ -57,7 +57,7 @@ def login():
         flash('Wrong password or email when logging in')
         redirect('/')
 
-    session['logged_in_id'] = int(user[0]['id'])
+    session['logged_in_id'] = user[0]['id']
 
     return redirect('/users')
 
@@ -73,6 +73,7 @@ def users():
 
     # print session['logged_in_id']
     user = mysql.query_db(query, data)
+    user[0]['id'] = int(user[0]['id'])
     session['user_id'] = user[0]['id']
 
     query = "SELECT messages.id, messages.message, users.first_name, users.last_name FROM messages LEFT JOIN users ON messages.user_id = users.id ORDER BY messages.created_at DESC"
