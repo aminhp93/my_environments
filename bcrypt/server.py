@@ -2,7 +2,9 @@
 from flask import Flask, request, render_template
 from mysqlconnection import MySQLConnector
 # imports the Bcrypt module
-from flask import Bcrypt
+import flask_bcrypt
+# import bcrypt
+# from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)

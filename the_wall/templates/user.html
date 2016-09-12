@@ -45,11 +45,11 @@
 	</form>
 		<li>
 			{% for message in messages: %}
-				<div class="message">{{ message['first_name'] }} {{ message['last_name'] }}</div>
+				<div class="message">{{ message['first_name'] }} {{ message['last_name'] }} {{ message['created_at'] }}</div>
 				<div class="message">{{ message['message'] }}</div>
 				{% for comment in comments: %}
 					{% if comment['message_id'] == message['id']: %}
-						<div class="comment">{{ user[0]['first_name']}} {{ user[0]['last_name'] }}</div>
+						<div class="comment">{{ comment['first_name']}} {{ comment['created_at']}}</div>
 						<div class="comment">{{ comment['comment'] }}</div>
 					{% endif %}
 				{% endfor %}
