@@ -7,124 +7,141 @@
 			margin: 0px;
 			padding: 0px;
 		}
+		#container{
+			width: 800px;
+			margin: 50px auto;
+		}
+		#the_wall{
+			font-size: 30px;
+			margin-bottom: 20px;
+		}
 		.title{
 			display: inline-block;
 			width: 100px;
 		}
 		li{
 			list-style: none;
+			padding: 10px 0;
+		}
+		ul{
+			padding: -2px;
 		}
 		#registration, #login{
 			display: inline-block;
 			vertical-align: top;
-			margin-right: 200px;
 		}
 		.error{
-			background-color: red;
 			display: inline-block;
 			width: 400px;
+			font-size: 15px;
+		}
+		.submit{
+			padding: 5px;
+			background-color: white;
+			border: 1px solid black;
+			margin-left: 185px;
 		}
 	</style>
 </head>
 <body>
-	<h2>THE WALL</h2>
+	<div id="container">
+		<div id="the_wall">THE WALL</div>
+		<form action="/create" method="post" id="registration">
+			<h3>Registration</h3>
+			<li>
+				<div class="title">First name:</div><input type="text" name="first_name">
+				<div class="error">
+					{% with messages = get_flashed_messages(category_filter = ['firstNameError']) %}
+						{% if messages %}
+						<ul>
+							{% for i in messages %}
+								{{ i }}
+							{% endfor %}
+						</ul>
+						{% endif %}
+					{% endwith %}
+				</div>
+			</li>
+			<li>
+				<div class="title">Last name:</div><input type="text" name="last_name">
+				<div class="error">
+					{% with messages = get_flashed_messages(category_filter = ['lastNameError']) %}
+						{% if messages %}
+							<ul>
+							{% for i in messages %}
+								{{ i }}
+							{% endfor %}
+							</ul>
+						{% endif %}
+					{% endwith %}
+				</div>
+			</li>
+			<li>
+				<div class="title">Email:</div><input type="text" name="email">
+				<div class="error">
+					{% with messages = get_flashed_messages(category_filter = ['emailError']) %}
+						{% if messages %}
+							<ul>
+							{% for i in messages %}
+								{{ i }}
+							{% endfor %}
+							</ul>
+						{% endif %}
+					{% endwith %}
+				</div>
+			</li>
+			<li>
+				<div class="title">Password:</div><input type="password" name="password">
+				<div class="error">
+					{% with messages = get_flashed_messages(category_filter = ['passwordError']) %}
+						{% if messages %}
+							<ul>
+							{% for i in messages %}
+								{{ i }}
+							{% endfor %}
+							</ul>
+						{% endif %}
+					{% endwith %}
+				</div>
+			</li>
+			<li>
+				<div class="title">Confirmation:</div><input type="password" name="password_confirmation">
+			</li>
+			<li><input type="submit" value="Click me" class="submit"></li>
+		</form>
 
-	<form action="/create" method="post" id="registration">
-		<h3>Registration</h3>
-		<li>
-			<div class="title">First name:</div><input type="text" name="first_name">
-			<div class="error">
-				{% with messages = get_flashed_messages(category_filter = ['firstNameError']) %}
-					{% if messages %}
-						<ul>
-						{% for i in messages %}
-							<li>{{ i }}</li>
-						{% endfor %}
-						</ul>
-					{% endif %}
-				{% endwith %}
-			</div>
-		</li>
-		<li>
-			<div class="title">Last name:</div><input type="text" name="last_name">
-			<div class="error">
-				{% with messages = get_flashed_messages(category_filter = ['lastNameError']) %}
-					{% if messages %}
-						<ul>
-						{% for i in messages %}
-							<li>{{ i }}</li>
-						{% endfor %}
-						</ul>
-					{% endif %}
-				{% endwith %}
-			</div>
-		</li>
-		<li>
-			<div class="title">Email:</div><input type="text" name="email">
-			<div class="error">
-				{% with messages = get_flashed_messages(category_filter = ['emailError']) %}
-					{% if messages %}
-						<ul>
-						{% for i in messages %}
-							<li>{{ i }}</li>
-						{% endfor %}
-						</ul>
-					{% endif %}
-				{% endwith %}
-			</div>
-		</li>
-		<li>
-			<div class="title">Password:</div><input type="password" name="password">
-			<div class="error">
-				{% with messages = get_flashed_messages(category_filter = ['passwordError']) %}
-					{% if messages %}
-						<ul>
-						{% for i in messages %}
-							<li>{{ i }}</li>
-						{% endfor %}
-						</ul>
-					{% endif %}
-				{% endwith %}
-			</div>
-		</li>
-		<li>
-			<div class="title">Confirmation:</div><input type="password" name="password_confirmation">
-		</li>
-		<li><input type="submit" name=""></li>
-	</form>
-
-	<form action="/login" method="post" id="login">
-		<h3>Login</h3>
-		<li>
-			<div class="title">Email:</div><input type="text" name="email_login">
-			<div class="error">
-				{% with messages = get_flashed_messages(category_filter = ['emailLoginError']) %}
-					{% if messages %}
-						<ul>
-						{% for i in messages %}
-							<li>{{ i }}</li>
-						{% endfor %}
-						</ul>
-					{% endif %}
-				{% endwith %}
-			</div>
-		</li>
-		<li>
-			<div class="title">Password:</div><input type="text" name="password_login">
-			<div class="error">
-				{% with messages = get_flashed_messages(category_filter = ['passwordLoginError']) %}
-					{% if messages %}
-						<ul>
-						{% for i in messages %}
-							<li>{{ i }}</li>
-						{% endfor %}
-						</ul>
-					{% endif %}
-				{% endwith %}
-			</div>
-		</li>
-		<li><input type="submit" name=""></li>
-	</form>
-
+		<form action="/login" method="post" id="login">
+			<h3>Login</h3>
+			<li>
+				<div class="title">Email:</div><input type="text" name="email_login">
+				<div class="error">
+					{% with messages = get_flashed_messages(category_filter = ['emailLoginError']) %}
+						{% if messages %}
+							<ul>
+							{% for i in messages %}
+								{{ i }}
+							{% endfor %}
+							</ul>
+						{% endif %}
+					{% endwith %}
+				</div>
+			</li>
+			<li>
+				<div class="title">Password:</div><input type="text" name="password_login">
+				<div class="error">
+					{% with messages = get_flashed_messages(category_filter = ['passwordLoginError']) %}
+						{% if messages %}
+							<ul>
+							{% for i in messages %}
+								{{ i }}
+							{% endfor %}
+							</ul>
+						{% endif %}
+					{% endwith %}
+				</div>
+			</li>
+			<li><input type="submit" value="Click me" class="submit"></li>
+		</form>
+	</div>
 </body>
 </html>
