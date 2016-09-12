@@ -2,14 +2,12 @@ from flask import Flask, render_template, request, redirect, session, flash
 from mysqlconnection import MySQLConnector
 import re
 import md5
-import os, binascii
 
 app = Flask(__name__)
 app.secret_key = "the wall"
 mysql = MySQLConnector(app, 'the_wall')
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
-salt = binascii.b2a_hex(os.urandom(15))
 
 @app.route('/')
 def index():
@@ -26,8 +24,8 @@ def create():
     first_name = request.form['first_name']
     last_name = request.form['last_name']
     email = request.form['email']
-    password = md5.new(request.form['password'] + salt).hexdigest();
-    password_confirmation = md5.new(request.form['password_confirmation'] + salt).hexdigest();
+    password = md5.new(request.form['password']).hexdigest();
+    password_confirmation = md5.new(request.form['password_confirmation']).hexdigest();
 
     # check validation
 
@@ -67,25 +65,12 @@ def create():
 @app.route('/login', methods=['POST'])
 def login():
     email = request.form['email_login']
-    password = md5.new(request.form['password_login'] + salt).hexdigest();
+    password = md5.new(request.form['password_login']).hexdigest();
     
     # check id in session
     if 'id' in session and session['id'] != "":
-        query = "SELECT * FROM users WHERE id = :id"
-        data = {'id': session['id']}
-        user = mysql.query_db(query, data)
-
-        error = 0
-        if user[0]['email'] != email:
-            flash('Email and password are not matched 1', 'emailLoginError')
-            error += 1
-        elif user[0]['password'] != password:
-            flash('Email and password are not matched 1', 'passwordLoginError')
-            error += 1
-
-        if error > 0:
-            return redirect('/')
-
+        pass
+   
     # check id in database
     query = "SELECT * FROM users WHERE email = :email AND password = :password LIMIT 1"
     data = {'email': email, 'password': password}
