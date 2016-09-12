@@ -3,15 +3,22 @@
 <head>
 	<title>The wall</title>
 	<style type="text/css">
-		.username{
+		/*.username{
 			font-weight: bold;
 			font-size: 20px;
-		}
+		}*/
 		li{
 			list-style: none;
 		}
 		.message{
 			margin: 10px 0 10px 30px;
+			background-color: blue;
+			color: white;
+		}
+		.comment{
+			margin: 10px 0 10px 50px;
+			background-color: green;
+			color: white;
 		}
 		.input{
 			display: block;
@@ -31,20 +38,19 @@
 </head>
 <body>
 	<h2>Welcome Home</h2>
-	{{user}}
+	{{user[0]['id']}} {{user}}
 	<form action="/messages" method="post">
 		<li>Post a message:<input type="text" name="message" class="input"></li>
 		<li><input type="submit" value="Post a message" class="post_a_message"></li>
 	</form>
 		<li>
 			{% for message in messages: %}
-				<div>
-				<li class="username">{{ message['first_name'] + " " + message['last_name'] + '---------------------'}}</li>
-				<li class="message">{{ message['message'] }}</li>
-				</div>
+				<div class="message">{{ message['first_name'] }} {{ message['last_name'] }}</div>
+				<div class="message">{{ message['message'] }}</div>
 				{% for comment in comments: %}
-					{% if comment['message_id'] == messsage['id']: %}
-						{{ comment['comment'] }}
+					{% if comment['message_id'] == message['id']: %}
+						<div class="comment">{{ user[0]['first_name']}} {{ user[0]['last_name'] }}</div>
+						<div class="comment">{{ comment['comment'] }}</div>
 					{% endif %}
 				{% endfor %}
 				<form action="/messages/{{ message['id'] }}/comments" method="post">
