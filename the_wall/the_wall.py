@@ -1,17 +1,23 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, flash
 from mysqlconnection import MySQLConnector
 import re
 import md5
 
 app = Flask(__name__)
-app.secret_key = "Coding dodofasfa "
+app.secret_key = "Codin dodoff21a1"
 mysql = MySQLConnector(app, 'the_wall')
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 @app.route('/')
 def index():
-
+    session['first_name'] = ""
+    session['last_name'] = ""
+    session['email'] = ""
+    session['password'] = ""
+    session['logged_in_id'] = ""
+    session['id'] = ""
+    session['user_id'] = ""
     return render_template('index.html')
 
 @app.route('/create', methods=['POST'])
@@ -65,47 +71,45 @@ def users():
     else:
         data = {'id': session['logged_in_id']}
 
+    print session['id']
+    print session['logged_in_id']
     user = mysql.query_db(query, data)
-    session['current_id'] = user[0]['id']
+    session['user_id'] = int(user[0]['id'])
 
-    return render_template('user.html', user = user, messages = session['all_messages'])
+    query = "SELECT * FROM messages LEFT JOIN users ON messages.user_id = users.id ORDER BY messages.created_at DESC"
+    messages = mysql.query_db(query)
+
+    query = "SELECT * FROM comments LEFT JOIN  messages ON comments.message_id = messages.id"
+
+    comments = mysql.query_db(query)
+    print user
+    print session.items()
+
+    return render_template('user.html', user = user, messages = messages)
 
 @app.route('/messages', methods=['POST'])
 def messages():
     message = request.form['message']
 
     query = "INSERT INTO messages(message, user_id, created_at, updated_at) VALUES (:message, :user_id, NOW(), NOW())"
-    data = {'message': message, 'user_id': session['current_id']}
-    display = mysql.query_db(query, data)
+    data = {'message': message, 'user_id': session['user_id']}
+    insert = mysql.query_db(query, data)
 
-    query = "SELECT * FROM messages"
-    session['all_messages'] = mysql.query_db(query)
+    return redirect('/users')
+
+@app.route('/messages/<message_id>/comments', methods=['POST'])
+def comments(message_id):
+    comment = request.form['comment']
 
     query = "INSERT INTO comments(comment, user_id, message_id, created_at, updated_at) VALUES (:comment, :user_id, :message_id, NOW(), NOW())"
-    data = {'comment': comment, 'user_id': session['current_id'], 'message_id': current_message}
-
-    query = "SELECT * FROM comments"
-    comment = mysql.query_db(query)
-
+    data = {'comment': comment, 'user_id': session['user_id'], 'message_id': message_id}
+    insert = mysql.query_db(query, data)
 
     return redirect('/users')
 
-@app.route('/comments', methods=['POST'])
-def comments():
-    return redirect('/users')
-
-
-
-
-
-
-
-
-
-
-
-
-
+@app.route('/logout', methods=['POST'])
+def logout():
+    return redirect("/")
 
 
 app.run(debug=True)

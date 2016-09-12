@@ -2,25 +2,59 @@
 <html>
 <head>
 	<title>The wall</title>
+	<style type="text/css">
+		.username{
+			font-weight: bold;
+			font-size: 20px;
+		}
+		li{
+			list-style: none;
+		}
+		.message{
+			margin: 10px 0 10px 30px;
+		}
+		.input{
+			display: block;
+			height: 50px;
+			width: 800px;
+		}
+		.post_a_message{
+			background-color: blue;
+			color: white;
+		}
+		.post_a_comment{
+			background-color: green;
+			color: white;
+		}
+	</style>
+
 </head>
 <body>
 	<h2>Welcome Home</h2>
 	{{user}}
 	<form action="/messages" method="post">
-		<li>Post a message:<input type="textarea" name="message"></li>
-		<li><input type="submit" value="Post a message"></li>
+		<li>Post a message:<input type="text" name="message" class="input"></li>
+		<li><input type="submit" value="Post a message" class="post_a_message"></li>
+	</form>
 		<li>
-			{% for i in messages %}
-				<li>{{ i['message'] }}</li>
-				<input type="text" name="comment">
-				<div class="comment">Post a comment</div>
+			{% for message in messages: %}
+				<div>
+				<li class="username">{{ message['first_name'] + " " + message['last_name'] + '---------------------'}}</li>
+				<li class="message">{{ message['message'] }}</li>
+				</div>
+				{% for comment in comments: %}
+					{% if comment['message_id'] == messsage['id']: %}
+						{{ comment['comment'] }}
+					{% endif %}
+				{% endfor %}
+				<form action="/messages/{{ message['id'] }}/comments" method="post">
+					<input type="text" name="comment" class="input">
+					<input type="submit" value="Post a comment" class="post_a_comment">
+				</form>
 			{% endfor %}
 		</li>
-
-
-		
-
-	</form>
-
+		<form action="/logout" method="post">
+			<input type="submit" name="" value="Logout">
+		</form>
 </body>
 </html>
