@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Show</title>
+	<style type="text/css">
+		form{
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+	<h2>User {{ user[0]['id'] }}</h2>
+	<li>
+		Fullname: {{ user[0]['fullname'] }}
+	</li>
+	<li>
+		Email: {{ user[0]['email'] }}
+	</li>
+	<li>
+		Created at: {{ user[0]['created_at'] }}
+	</li>
+	<form action="/users/{{ user[0]['id'] }}/edit">
+		<input type="submit" name="" value="Edit">
+	</form>
+	<form action="/users/{{ user[0]['id'] }}/delete">
+		<input type="submit" name="" value="Delete">
+	</form>
+</body>
+</html>

@@ -2,14 +2,22 @@
 <html>
 <head>
 	<title>New User</title>
+	<style type="text/css">
+		input{
+			display: block;
+		}
+		li{
+			list-style: none;
+			margin: 20px 0;
+		}
+	</style>
 </head>
 <body>
 	<h2>Add a new user</h2>
-	<form action="/users/new" method="post">
-		Name:<input type="text" name="name">
-		Email:<input type="text" name="email">
-		<input type="submit" name="" value="Create">
+	<form action="/create" method="post">
+		<li>Name:<input type="text" name="name"></li>
+		<li>Email:<input type="text" name="email"></li>
+		<li><input type="submit" name="" value="Create"></li>
 	</form>
-	<div><a href=""></a>Go Back</div>
 </body>
 </html>

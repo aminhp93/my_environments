@@ -17,8 +17,7 @@ def index():
     elif session['user_id'] != "":
         return redirect('/users')
     return render_template('index.html')
-    # else:
-    #     return redirect('/users')
+   
 
 @app.route('/create', methods=['POST'])
 def create():

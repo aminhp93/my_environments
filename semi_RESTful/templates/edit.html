@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Show</title>
+	<style type="text/css">
+		.title{
+			width: 100px;
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+	<h2>Edit User {{ user[0]['id'] }}</h2>
+
+	<form action="/users/{{ user[0]['id'] }}/update" method="post">
+		<li>
+			<div class="title">Fullname:</div><input type="text" name="fullname" value="{{ user[0]['fullname'] }}">
+		</li>
+		<li>
+			<div class="title">Email:</div><input type="text" name="email" value="{{ user[0]['email'] }}">
+		</li>
+		<input type="submit" value="Update">
+	</form>
+</body>
+</html>

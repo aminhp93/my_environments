@@ -2,6 +2,19 @@
 <html>
 <head>
 	<title>Users</title>
+	<style type="text/css">
+		form{
+			display: inline-block;
+		}
+		.fullname{
+
+		}
+		.fullname_button{
+			border: none;
+			background-color: white;
+			text-decoration: underline;
+		}
+	</style>
 </head>
 <body>
 	{{users}}
@@ -14,12 +27,31 @@
 			<th>Created at</th>
 			<th>Actions</th>
 		</tr>
-
+			{% for i in users: %}
 			<tr>
-				
+				<th>{{ i['id'] }}</th>
+				<th>
+					<form class="fullname" action="/users/{{ i['id'] }}">
+						<input class="fullname_button" type="submit" value="{{ i['fullname'] }}">
+					</form>
+				</th>
+				<th>{{ i['email'] }}</th>
+				<th>{{ i['created_at'] }}</th>
+				<th>
+					<form action="/users/{{ i['id'] }}">
+						<input type="submit" value="Show">
+					</form>
+					<form action="/users/{{ i['id'] }}/edit">
+						<input type="submit" name="" value="Edit">
+					</form>
+					<form action="/users/{{ i['id'] }}/delete">
+						<input type="submit" name="" value="Delete">
+					</form>
+				</th>
 			</tr>
+			{% endfor %}
 	</table>
-	<form action="/link">
+	<form action="/users/new">
 		<input type="submit" value="Add a new user">
 	</form>
 
