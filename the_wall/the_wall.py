@@ -5,7 +5,7 @@ from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
-app.secret_key = "the wall1123e2"
+app.secret_key = "fasdjfljasdjf "
 mysql = MySQLConnector(app, 'the_wall')
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -14,9 +14,11 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 def index():
     if not 'user_id' in session:
         session['user_id'] = ""
-        return render_template('index.html')
-    else:
+    elif session['user_id'] != "":
         return redirect('/users')
+    return render_template('index.html')
+    # else:
+    #     return redirect('/users')
 
 @app.route('/create', methods=['POST'])
 def create():
@@ -80,7 +82,7 @@ def login():
         session['user_id'] = user[0]['id']
         return redirect('/users')
     else:
-        return request('/')
+        return redirect('/')
         
 @app.route('/users')
 def users():
