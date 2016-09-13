@@ -100,10 +100,10 @@ def users():
     user[0]['id'] = int(user[0]['id'])
     session['user_id'] = user[0]['id']
 
-    query = "SELECT messages.id, messages.created_at, messages.message, users.first_name, users.last_name FROM messages LEFT JOIN users ON messages.user_id = users.id ORDER BY messages.created_at DESC"
+    query = "SELECT messages.user_id, messages.id, messages.created_at, messages.message, users.first_name, users.last_name FROM messages LEFT JOIN users ON messages.user_id = users.id ORDER BY messages.created_at DESC"
     messages = mysql.query_db(query)
 
-    query = "SELECT comments.id, comments.message_id, users.first_name, users.last_name, comments.comment, comments.created_at FROM comments LEFT JOIN users ON comments.user_id = users.id"
+    query = "SELECT comments.user_id, comments.id, comments.message_id, users.first_name, users.last_name, comments.comment, comments.created_at FROM comments LEFT JOIN users ON comments.user_id = users.id"
 
     comments = mysql.query_db(query)
 
@@ -144,10 +144,6 @@ def update_message(message_id):
     insert = mysql.query_db(query, data)
     
     return redirect('/users')
-
-
-
-# delete messages ---------------------------
 
 @app.route('/messages/<message_id>/delete', methods=['POST'])
 def delete_message(message_id):

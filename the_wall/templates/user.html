@@ -83,24 +83,28 @@
 		{% for message in messages: %}
 			<div class="message">{{ message['first_name'] }} {{ message['last_name'] }} {{ message['created_at'] }}</div>
 			<div class="message">{{ message['message'] }}
-				<form action="/messages/{{ message['id'] }}/edit" class="edit">
-					<input type="submit" name="edit_message" value="Edit message" class="edit_button">
-				</form>
-				<form action="/messages/{{ message['id'] }}/delete" class="delete" method="post">
-					<input type="submit" name="delete message" value="Delete message" class="delete_button">
-				</form>
+				{% if message.user_id == user[0]['id']: %}
+					<form action="/messages/{{ message['id'] }}/edit" class="edit">
+						<input type="submit" name="edit_message" value="Edit message" class="edit_button">
+					</form>
+					<form action="/messages/{{ message['id'] }}/delete" class="delete" method="post">
+						<input type="submit" name="delete message" value="Delete message" class="delete_button">
+					</form>
+				{% endif %}
 			</div>
 			
 			{% for comment in comments: %}
 				{% if comment['message_id'] == message['id']: %}
 					<div class="comment">{{ comment['first_name']}} {{ comment['created_at']}}</div>
 					<div class="comment">{{ comment['comment'] }}
-						<form action="/comments/{{ comment['id'] }}/edit" class="edit">
-							<input type="submit" name="edit_comment" value="Edit comment" class="edit_button">
-						</form>
-						<form action="/comments/{{ comment['id'] }}/delete" class="delete" method="post">
-							<input type="submit" name="delete comment" value="Delete comment" class="delete_button">
-						</form>
+						{% if comment.user_id == user[0]['id']: %}
+							<form action="/comments/{{ comment['id'] }}/edit" class="edit">
+								<input type="submit" name="edit_comment" value="Edit comment" class="edit_button">
+							</form>
+							<form action="/comments/{{ comment['id'] }}/delete" class="delete" method="post">
+								<input type="submit" name="delete comment" value="Delete comment" class="delete_button">
+							</form>
+						{% endif %}
 					</div>
 				{% endif %}
 			{% endfor %}
