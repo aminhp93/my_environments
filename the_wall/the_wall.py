@@ -5,7 +5,7 @@ from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
-app.secret_key = "the wall"
+app.secret_key = "the wall1"
 mysql = MySQLConnector(app, 'the_wall')
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -25,8 +25,7 @@ def create():
     first_name = request.form['first_name']
     last_name = request.form['last_name']
     email = request.form['email']
-    password = bcrypt.generate_password_hash(request.form['password'])
-
+    
     # check validation
 
     error = 0
@@ -57,6 +56,8 @@ def create():
     if error > 0:
         return redirect('/')
 
+    password = bcrypt.generate_password_hash(request.form['password'])
+
     query = 'INSERT INTO users(first_name, last_name, email, password, created_at, updated_at) VALUES (:first_name, :last_name, :email, :password, NOW(), NOW())'
     data = {'first_name': first_name, 'last_name': last_name, 'email': email, 'password': password}
     session['id'] = mysql.query_db(query, data)
@@ -77,13 +78,16 @@ def login():
     data = {'email': email}
     user = mysql.query_db(query, data)
 
+    if user == []:
+        flash('Email and password are not matched 2', 'emailLoginError')
+        return redirect('/')
+
     if bcrypt.check_password_hash(user[0]['password'], password):
         session['logged_in_id'] = user[0]['id']
         return redirect('/users')
     else:
-        flash('Email and password are not matched 2', 'emailLoginError')
-        return redirect('/')
-
+        return request('/')
+        
 @app.route('/users')
 def users():
     query = "SELECT * FROM users WHERE id = :id"
