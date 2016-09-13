@@ -60,6 +60,7 @@ def create():
     query = 'INSERT INTO users(first_name, last_name, email, password, created_at, updated_at) VALUES (:first_name, :last_name, :email, :password, NOW(), NOW())'
     data = {'first_name': first_name, 'last_name': last_name, 'email': email, 'password': password}
     session['id'] = mysql.query_db(query, data)
+    
     return redirect('/users')
 
 @app.route('/login', methods=['POST'])
@@ -102,7 +103,7 @@ def users():
     query = "SELECT messages.id, messages.created_at, messages.message, users.first_name, users.last_name FROM messages LEFT JOIN users ON messages.user_id = users.id ORDER BY messages.created_at DESC"
     messages = mysql.query_db(query)
 
-    query = "SELECT comments.message_id, users.first_name, users.last_name, comments.comment, comments.created_at FROM comments LEFT JOIN users ON comments.user_id = users.id"
+    query = "SELECT comments.id, comments.message_id, users.first_name, users.last_name, comments.comment, comments.created_at FROM comments LEFT JOIN users ON comments.user_id = users.id"
 
     comments = mysql.query_db(query)
 
@@ -128,11 +129,68 @@ def comments(message_id):
 
     return redirect('/users')
 
+@app.route('/messages/<message_id>/edit')
+def edit_message(message_id):
+    query = 'SELECT * FROM messages WHERE id = :id LIMIT 1'
+    data = {'id': message_id}
+    message = mysql.query_db(query, data)
+
+    return render_template('edit_message.html', message = message)
+
+@app.route('/messages/<message_id>', methods=['POST'])
+def update_message(message_id):
+    query = 'UPDATE messages SET message = :message WHERE id = :id'
+    data = {'message': request.form['update_message'], 'id': message_id}
+    insert = mysql.query_db(query, data)
+    
+    return redirect('/users')
+
+
+
+# delete messages ---------------------------
+
+@app.route('/messages/<message_id>/delete', methods=['POST'])
+def delete_message(message_id):
+    query = "DELETE FROM messages WHERE id = :id"
+    data = {'id': message_id}
+    insert = mysql.query_db(query, data)
+
+    query = "DELETE FROM comments WHERE message_id = :message_id"
+    data = {'message_id': message_id}
+    insert = mysql.query_db(query, data)
+
+    return redirect('/users')
+
+@app.route('/comments/<comment_id>/edit')
+def edit_comment(comment_id):
+    query = 'SELECT * FROM comments WHERE id = :id LIMIT 1'
+    data = {'id': comment_id}
+    comment = mysql.query_db(query, data)
+    
+    return render_template('edit_comment.html', comment = comment)
+
+@app.route('/comments/<comment_id>', methods=['POST'])
+def update_comment(comment_id):
+    query = 'UPDATE comments SET comment = :comment WHERE id = :id'
+    data = {'comment': request.form['update_comment'], 'id': comment_id}
+    insert = mysql.query_db(query, data)
+    
+    return redirect('/users')
+
+@app.route('/comments/<comment_id>/delete', methods=['POST'])
+def delete_comment(comment_id):
+    query = "DELETE FROM comments WHERE id = :id"
+    data = {'id': comment_id}
+    insert = mysql.query_db(query, data)
+
+    return redirect('/users')
+
 @app.route('/logout', methods=['POST'])
 def logout():
     session.pop('id', None)
     session.pop('logged_in_id', None)
     session.pop('user_id', None)
+    
     return redirect("/")
 
 app.run(debug=True)

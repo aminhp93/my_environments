@@ -33,7 +33,7 @@
 			background-color: green;
 			color: white;
 			padding: 5px;
-			font-size: 13px;
+			font-size: 16px;
 		}
 		.comment_box{
 			border: 1px solid black;
@@ -57,6 +57,14 @@
 			border: none;
 			margin-left: 50px;
 		}
+		.edit, .delete{
+			display: inline-block;
+			float: right;
+			margin-top: -2px;
+		}
+		.edit_button{
+			/*background-color: red;*/
+		}
 	</style>
 
 </head>
@@ -74,11 +82,26 @@
 	<li>
 		{% for message in messages: %}
 			<div class="message">{{ message['first_name'] }} {{ message['last_name'] }} {{ message['created_at'] }}</div>
-			<div class="message">{{ message['message'] }}</div>
+			<div class="message">{{ message['message'] }}
+				<form action="/messages/{{ message['id'] }}/edit" class="edit">
+					<input type="submit" name="edit_message" value="Edit message" class="edit_button">
+				</form>
+				<form action="/messages/{{ message['id'] }}/delete" class="delete" method="post">
+					<input type="submit" name="delete message" value="Delete message" class="delete_button">
+				</form>
+			</div>
+			
 			{% for comment in comments: %}
 				{% if comment['message_id'] == message['id']: %}
 					<div class="comment">{{ comment['first_name']}} {{ comment['created_at']}}</div>
-					<div class="comment">{{ comment['comment'] }}</div>
+					<div class="comment">{{ comment['comment'] }}
+						<form action="/comments/{{ comment['id'] }}/edit" class="edit">
+							<input type="submit" name="edit_comment" value="Edit comment" class="edit_button">
+						</form>
+						<form action="/comments/{{ comment['id'] }}/delete" class="delete" method="post">
+							<input type="submit" name="delete comment" value="Delete comment" class="delete_button">
+						</form>
+					</div>
 				{% endif %}
 			{% endfor %}
 			<form action="/messages/{{ message['id'] }}/comments" method="post">

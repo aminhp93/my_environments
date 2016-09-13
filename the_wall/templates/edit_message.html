@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Edit Message</title>
+	<style type="text/css">
+		.input{
+			width: 500px;
+			padding: 10px;
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	{{message}}
+	<h2>Update your message here:</h2>
+	{{message[0]['id']}}
+	<form action="/messages/{{message[0]['id']}}" method="post">
+		<input type="text" name="update_message" value="{{message[0]['message']}}" class="input">
+		<input type="submit" value="Click me to update">
+	</form>
+</body>
+</html>

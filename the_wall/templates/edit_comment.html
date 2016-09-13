@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Edit Comment</title>
+	<style type="text/css">
+		.input{
+			width: 500px;
+			padding: 10px;
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	{{comment}}
+	<h2>Update your comment here:</h2>
+	<form action="/comments/{{comment[0]['id']}}" method="post">
+		<input type="text" name="update_comment" value="{{comment[0]['comment']}}" class="input">
+		<input type="submit" value="Click me to update">
+	</form>
+</body>
+</html>
