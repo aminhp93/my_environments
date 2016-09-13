@@ -73,12 +73,13 @@
 	<form action="/logout" method="post" id="logout">
 		<input type="submit" value="Logout" id="logout_button">
 	</form>
-	<!-- {{user}} -->
+	
 
 	<form action="/messages" method="post">
 		<li>Post a message:<input type="text" name="message" class="input_message"></li>
 		<li><input type="submit" value="Post a message" class="post_a_message"></li>
 	</form>
+	{{user}}
 	<li>
 		{% for message in messages: %}
 			<div class="message">{{ message['first_name'] }} {{ message['last_name'] }} {{ message['created_at'] }}</div>

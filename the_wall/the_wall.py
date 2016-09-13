@@ -5,20 +5,18 @@ from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
-app.secret_key = "the wall1"
+app.secret_key = "the wall1123e2"
 mysql = MySQLConnector(app, 'the_wall')
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 @app.route('/')
 def index():
-    if not 'logged_in_id' in session:
-        session['logged_in_id'] = ""
-    if not 'id' in session:
-        session['id'] = ""
     if not 'user_id' in session:
         session['user_id'] = ""
-    return render_template('index.html')
+        return render_template('index.html')
+    else:
+        return redirect('/users')
 
 @app.route('/create', methods=['POST'])
 def create():
@@ -60,7 +58,7 @@ def create():
 
     query = 'INSERT INTO users(first_name, last_name, email, password, created_at, updated_at) VALUES (:first_name, :last_name, :email, :password, NOW(), NOW())'
     data = {'first_name': first_name, 'last_name': last_name, 'email': email, 'password': password}
-    session['id'] = mysql.query_db(query, data)
+    session['user_id'] = int(mysql.query_db(query, data))
     
     return redirect('/users')
 
@@ -69,10 +67,6 @@ def login():
     email = request.form['email_login']
     password = request.form['password_login']
     
-    # check id in session
-    if 'id' in session and session['id'] != "":
-        pass
-   
     # check id in database
     query = "SELECT * FROM users WHERE email = :email LIMIT 1"
     data = {'email': email}
@@ -83,7 +77,7 @@ def login():
         return redirect('/')
 
     if bcrypt.check_password_hash(user[0]['password'], password):
-        session['logged_in_id'] = user[0]['id']
+        session['user_id'] = user[0]['id']
         return redirect('/users')
     else:
         return request('/')
@@ -91,24 +85,16 @@ def login():
 @app.route('/users')
 def users():
     query = "SELECT * FROM users WHERE id = :id"
-
-    # check id in session
-    if 'id' in session and session['id'] != "":
-        data = {'id': session['id']}
-    else:
-        data = {'id': session['logged_in_id']}
-
-    # print session['logged_in_id']
+    data = {'id': session['user_id']}
     user = mysql.query_db(query, data)
-    user[0]['id'] = int(user[0]['id'])
     session['user_id'] = user[0]['id']
 
     query = "SELECT messages.user_id, messages.id, messages.created_at, messages.message, users.first_name, users.last_name FROM messages LEFT JOIN users ON messages.user_id = users.id ORDER BY messages.created_at DESC"
     messages = mysql.query_db(query)
 
     query = "SELECT comments.user_id, comments.id, comments.message_id, users.first_name, users.last_name, comments.comment, comments.created_at FROM comments LEFT JOIN users ON comments.user_id = users.id"
-
     comments = mysql.query_db(query)
+    print session.items()
 
     return render_template('user.html', user = user, messages = messages, comments = comments)
 
@@ -186,8 +172,6 @@ def delete_comment(comment_id):
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    session.pop('id', None)
-    session.pop('logged_in_id', None)
     session.pop('user_id', None)
     
     return redirect("/")
