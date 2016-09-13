@@ -30,7 +30,7 @@ CREATE TABLE `comments` (
   `message_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (30,'This is Minh 10 Comment','2016-09-12 14:30:50','2016-09-12 14:30:50',34,23),(31,'This is minh1 comment','2016-09-12 14:34:46','2016-09-12 14:34:46',33,24),(32,'this is minh1 comment','2016-09-12 14:34:54','2016-09-12 14:34:54',34,24);
+INSERT INTO `comments` VALUES (35,'first comments','2016-09-12 18:44:36','2016-09-12 18:44:36',37,33),(38,'fasdfas','2016-09-12 18:46:24','2016-09-12 18:46:24',37,33),(39,'COmesadlkf','2016-09-12 18:58:40','2016-09-12 18:58:40',42,33),(40,'sdfkasdjf klasjdflk','2016-09-12 18:58:42','2016-09-12 18:58:42',42,33),(41,'sdfk;asdfadsf','2016-09-12 18:58:44','2016-09-12 18:58:44',39,33),(42,'fsdafljnas dnflaskd','2016-09-12 19:06:18','2016-09-12 19:06:18',37,34),(43,'sadfljasdfla','2016-09-12 19:06:34','2016-09-12 19:06:34',42,34),(44,'fasdlfasdjflasdjfs','2016-09-12 19:06:38','2016-09-12 19:06:38',39,34);
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,7 +57,7 @@ CREATE TABLE `messages` (
   `updated_at` datetime DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-INSERT INTO `messages` VALUES (33,'This is Minh 10 message.','2016-09-12 14:30:16','2016-09-12 14:30:16',23),(34,'This is Minh 10 messages 2','2016-09-12 14:30:42','2016-09-12 14:30:42',23);
+INSERT INTO `messages` VALUES (37,'asdfsadfs messages minh1','2016-09-12 16:45:22','2016-09-12 16:45:22',31),(39,'Hello Minh how are you man? I\'m Elliot.','2016-09-12 18:05:56','2016-09-12 18:05:56',33),(42,'eknfnasdfnasd fnas,dnf.a,smdf','2016-09-12 18:52:04','2016-09-12 18:52:04',33),(43,'flasdjflsadf','2016-09-12 19:00:46','2016-09-12 19:00:46',33),(44,'minh3 as;dfjadls;k jfa','2016-09-12 19:06:30','2016-09-12 19:06:30',34);
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,8 +85,9 @@ CREATE TABLE `users` (
   `password` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
+  `salt` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +96,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (22,'minh9','Minh1234','minh9@gmail.com','9db81bc4ff752aabd3515ac56ef9fbdc','2016-09-12 13:43:37','2016-09-12 13:43:37'),(23,'minh10','Minh1234','minh10@gmail.com','a463116fe5f4c279705b3c99832ace5c','2016-09-12 14:28:12','2016-09-12 14:28:12'),(24,'minh1','Minh1234','minh10@gmail.com','a463116fe5f4c279705b3c99832ace5c','2016-09-12 14:34:38','2016-09-12 14:34:38');
+INSERT INTO `users` VALUES (31,'minh1','Minh1234','minh1@gmail.com','0f54348d511f569f82978244b5ab6a3c','2016-09-12 16:45:14','2016-09-12 16:45:14',NULL),(32,'minh2','Minh1234','minh2@gmail.com','0f54348d511f569f82978244b5ab6a3c','2016-09-12 16:48:51','2016-09-12 16:48:51',NULL),(33,'Elliot','Superboy','e@e.com','5f4dcc3b5aa765d61d8327deb882cf99','2016-09-12 18:05:24','2016-09-12 18:05:24',NULL),(34,'minh3','Minh1234','minh3@gmail.com','0f54348d511f569f82978244b5ab6a3c','2016-09-12 19:06:11','2016-09-12 19:06:11',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -108,4 +109,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-12 15:22:42
+-- Dump completed on 2016-09-12 19:09:55

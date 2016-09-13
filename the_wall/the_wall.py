@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from mysqlconnection import MySQLConnector
 import re
-import md5
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 app.secret_key = "the wall"
 mysql = MySQLConnector(app, 'the_wall')
 
@@ -24,8 +25,7 @@ def create():
     first_name = request.form['first_name']
     last_name = request.form['last_name']
     email = request.form['email']
-    password = md5.new(request.form['password']).hexdigest();
-    password_confirmation = md5.new(request.form['password_confirmation']).hexdigest();
+    password = bcrypt.generate_password_hash(request.form['password'])
 
     # check validation
 
@@ -50,7 +50,7 @@ def create():
         flash('Password has at least 8 characters', 'passwordError')
         error += 1
 
-    if password != password_confirmation:
+    if request.form['password'] != request.form['password_confirmation']:
         flash('Password and confirmation is not match', 'passwordError')
         error += 1
 
@@ -66,24 +66,23 @@ def create():
 @app.route('/login', methods=['POST'])
 def login():
     email = request.form['email_login']
-    password = md5.new(request.form['password_login']).hexdigest();
+    password = request.form['password_login']
     
     # check id in session
     if 'id' in session and session['id'] != "":
         pass
    
     # check id in database
-    query = "SELECT * FROM users WHERE email = :email AND password = :password LIMIT 1"
-    data = {'email': email, 'password': password}
+    query = "SELECT * FROM users WHERE email = :email LIMIT 1"
+    data = {'email': email}
     user = mysql.query_db(query, data)
 
-    if user == []:
+    if bcrypt.check_password_hash(user[0]['password'], password):
+        session['logged_in_id'] = user[0]['id']
+        return redirect('/users')
+    else:
         flash('Email and password are not matched 2', 'emailLoginError')
         return redirect('/')
-
-    session['logged_in_id'] = user[0]['id']
-
-    return redirect('/users')
 
 @app.route('/users')
 def users():
